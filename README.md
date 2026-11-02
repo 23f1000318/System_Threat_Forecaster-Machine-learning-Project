@@ -2,6 +2,10 @@
 
 Machine-learning project for predicting whether a Windows machine is likely to be infected by malware from antivirus telemetry and system configuration data.
 
+## Live Demo
+
+Try the deployed application here: [System Threat Forecaster](https://systemthreatforecaster-machine-learning-project-iitm.streamlit.app/)
+
 This project was developed for the Kaggle **System Threat Forecaster** competition. It explores machine-level security, operating-system, hardware, geographic, and antivirus attributes, then trains a binary classifier to predict the competition target.
 
 ## Project overview
