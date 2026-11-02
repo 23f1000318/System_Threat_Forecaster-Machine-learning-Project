@@ -1,0 +1,6 @@
+data/
+*.csv
+model/*.joblib
+__pycache__/
+.venv/
+*.py[cod]

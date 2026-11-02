@@ -1,13 +1,3 @@
----
-title: System Threat Forecaster
-emoji: 🛡️
-colorFrom: blue
-colorTo: indigo
-sdk: gradio
-app_file: space_app.py
-python_version: 3.12
----
-
 # System Threat Forecaster
 
 Machine-learning project for predicting whether a Windows machine is likely to be infected by malware from antivirus telemetry and system configuration data.
@@ -114,7 +104,6 @@ random_state=42
 ├── 23f1000318-notebook-t12025.ipynb  # EDA, preprocessing, modeling, and submission workflow
 ├── train.py                           # Trains and serializes the deployment model
 ├── app.py                             # FastAPI prediction service
-├── space_app.py                       # Gradio app for Hugging Face Spaces
 ├── streamlit_app.py                   # Streamlit Community Cloud app
 ├── requirements.txt                   # Runtime and training dependencies
 ├── Dockerfile                         # Container configuration
@@ -153,7 +142,7 @@ id,target
 
 ## Deploying the model as an API
 
-The repository now includes a FastAPI service for online predictions. The notebook remains unchanged; deployment uses the same preprocessing and LightGBM approach through `train.py` and `app.py`.
+The repository includes a FastAPI service for online predictions. Deployment uses the same preprocessing and LightGBM approach through `train.py` and `app.py`.
 
 ### 1. Install dependencies
 
@@ -204,33 +193,6 @@ docker build -t system-threat-forecaster .
 docker run --rm -p 8000:8000 system-threat-forecaster
 ```
 
-## Hugging Face Spaces deployment
-
-This repository is configured as a Gradio Space through the YAML metadata at the top of this README. Hugging Face will use `space_app.py` as the entry point and install packages from `requirements.txt`.
-
-1. Create a new Space at [Hugging Face Spaces](https://huggingface.co/new-space).
-2. Choose **Gradio** as the SDK and Python 3.11 as the runtime.
-3. Choose **Private** visibility if the model artifact or competition data should not be public.
-4. Upload the repository files, including `model/model.joblib`.
-5. Wait for the Space to build, then open the generated app URL.
-
-The Space supports both one-record JSON predictions and batch CSV predictions. The raw `train.csv` is not required at runtime; only the generated `model/model.joblib` artifact is needed. Do not upload Kaggle credentials or raw competition data to a public Space.
-
-You can upload the files from the command line after creating the Space and authenticating locally with `hf auth login`:
-
-```bash
-HF_SPACE=your-huggingface-username/system-threat-forecaster
-
-hf upload "$HF_SPACE" README.md --repo-type=space
-hf upload "$HF_SPACE" app.py --repo-type=space
-hf upload "$HF_SPACE" train.py --repo-type=space
-hf upload "$HF_SPACE" space_app.py --repo-type=space
-hf upload "$HF_SPACE" requirements.txt --repo-type=space
-hf upload "$HF_SPACE" model/model.joblib model/model.joblib --repo-type=space
-```
-
-The model file is approximately 210 MB, so the upload may take some time. Hugging Face's `hf upload` command supports large files and can resume interrupted uploads.
-
 ## Free deployment with Streamlit Community Cloud
 
 Streamlit Community Cloud is the recommended free deployment option for this project. It connects to GitHub repositories and handles the application environment and deployment automatically. See the [official deployment guide](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app).
@@ -259,7 +221,7 @@ The app provides JSON predictions for one machine and batch predictions from a C
 
 ## Notes and possible improvements
 
-This repository documents the original notebook workflow and does not alter the notebook itself. Potential future improvements include stratified cross-validation, leakage-safe preprocessing inside a complete modeling pipeline, more systematic hyperparameter optimization, class-probability calibration, and comparison with CatBoost or other models that handle high-cardinality categorical features directly.
+Potential future improvements include stratified cross-validation, leakage-safe preprocessing inside a complete modeling pipeline, more systematic hyperparameter optimization, class-probability calibration, and comparison with CatBoost or other models that handle high-cardinality categorical features directly.
 
 ## Competition reference
 
